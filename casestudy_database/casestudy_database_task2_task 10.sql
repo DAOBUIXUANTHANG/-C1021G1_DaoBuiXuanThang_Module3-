@@ -24,8 +24,8 @@ having kh.ma_loai_khach = 1;
 tong_tien (Với tổng tiền được tính theo công thức như sau: Chi Phí Thuê + Số Lượng * Giá, với Số Lượng và Giá là từ bảng dich_vu_di_kem,
  hop_dong_chi_tiet) cho tất cả các khách hàng đã từng đặt phòng. (những khách hàng nào chưa từng đặt phòng cũng phải hiển thị ra).*/
  
- select kh.ma_khach_hang, lk.ten_loai_khach, hd.ma_hop_dong, dv.ten_dich_vu, hd.ngay_lam_hop_dong, hd.ngay_ket_thuc , sum(dv.chi_phi_thue + hdct.so_luong * dvdk.gia) from loai_khach  lk
- join khach_hang  kh on lk.ma_loai_khach = kh.ma_loai_khach 
+ select kh.ma_khach_hang, kh.ho_ten ,lk.ten_loai_khach, hd.ma_hop_dong, dv.ten_dich_vu, hd.ngay_lam_hop_dong, hd.ngay_ket_thuc , sum( ifnull(dv.chi_phi_thue , 0) + ifnull( hdct.so_luong, 0 ) * ifnull( dvdk.gia , 0)) as tong_tien from loai_khach  lk
+ left join khach_hang  kh on lk.ma_loai_khach = kh.ma_loai_khach 
  left join hop_dong hd on hd.ma_khach_hang = kh.ma_khach_hang
  left join dich_vu  dv on  dv.ma_dich_vu = hd.ma_dich_vu
  left join hop_dong_chi_tiet hdct on hdct.ma_hop_dong = hd.ma_hop_dong
@@ -33,6 +33,7 @@ tong_tien (Với tổng tiền được tính theo công thức như sau: Chi Ph
  group by hd.ma_hop_dong
  order by kh.ma_khach_hang;
  
+
  /* 6.	Hiển thị ma_dich_vu, ten_dich_vu, dien_tich, chi_phi_thue, ten_loai_dich_vu 
  của tất cả các loại dịch vụ chưa từng được khách hàng thực hiện đặt từ quý 1 của năm 2021 (Quý 1 là tháng 1, 2, 3).*/
  
@@ -61,9 +62,19 @@ join hop_dong hd on dv.ma_dich_vu = hd.ma_dich_vu where year(hd.ngay_lam_hop_don
  
 
  /* 8.	Hiển thị thông tin ho_ten khách hàng có trong hệ thống, với yêu cầu ho_ten không trùng nhau*/
+ -- C1
+ select distinct ho_ten from khach_hang;
  
- select * from khach_hang;
- 
+ -- C2
+ select ho_ten from khach_hang 
+ union
+  select ho_ten from khach_hang ;
+  
+  -- C3 
+  select ho_ten 
+  from khach_hang;
+  
+  
  /* 9.	Thực hiện thống kê doanh thu theo tháng, nghĩa là tương ứng với mỗi tháng trong năm 2021 thì sẽ có bao nhiêu khách hàng thực hiện đặt phòng */
  
  select month(hd.ngay_lam_hop_dong) as thang , count(kh.ma_khach_hang) from khach_hang kh 
