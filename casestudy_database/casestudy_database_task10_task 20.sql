@@ -35,6 +35,21 @@ where  hd.ngay_lam_hop_dong in
  where year(ngay_lam_hop_dong) = 2021 and (month(ngay_lam_hop_dong) between 1 and 6) )
  group by hdct.ma_hop_dong;
  
+select hd.ma_hop_dong, nv.ho_ten, kh.ho_ten , kh.so_dien_thoai, hd.tien_dat_coc  ,hd.ngay_lam_hop_dong , sum(hdct.so_luong) from nhan_vien nv
+ join hop_dong hd on nv.ma_nhan_vien = hd.ma_nhan_vien
+ right join khach_hang kh on kh.ma_khach_hang = hd.ma_khach_hang
+
+ left join hop_dong_chi_tiet hdct on hdct.ma_hop_dong = hd.ma_hop_dong
+where  hd.ngay_lam_hop_dong in 
+ (select ngay_lam_hop_dong 
+ from hop_dong 
+ where year(ngay_lam_hop_dong) = 2020 and (month(ngay_lam_hop_dong) between 9 and 12) )
+ and hd.ngay_lam_hop_dong not in
+  (select ngay_lam_hop_dong 
+ from hop_dong 
+ where year(ngay_lam_hop_dong) = 2021 and (month(ngay_lam_hop_dong) between 1 and 6) )
+ group by hdct.ma_hop_dong;
+ 
  
  
 /* 13.	Hiển thị thông tin các Dịch vụ đi kèm được sử dụng nhiều nhất bởi các Khách hàng đã đặt phòng. 
@@ -90,13 +105,16 @@ where ma_nhan_vien not in (
 select ma_nhan_vien from hop_dong
 where year(ngay_lam_hop_dong) between 2019 and 2021);
 
+SET SQL_SAFE_UPDATES = 0;
 delete from nhan_vien
 where ma_nhan_vien not in (
 select ma_nhan_vien from hop_dong
 where year(ngay_lam_hop_dong) between 2019 and 2021);
+SET SQL_SAFE_UPDATES = 1;
 
 -- 17.	Cập nhật thông tin những khách hàng có ten_loai_khach từ Platinum lên Diamond,
 --  chỉ cập nhật những khách hàng đã từng đặt phòng với Tổng Tiền thanh toán trong năm 2021 là lớn hơn 10.000.000 VNĐ.
+ use furama;
 
 select * from khach_hang kh
 join hop_dong hd on kh.ma_khach_hang = hd.ma_khach_hang
@@ -108,24 +126,113 @@ join hop_dong hd on hd.ma_khach_hang = kh.ma_khach_hang
 join dich_vu dv on dv.ma_dich_vu = hd.ma_dich_vu
 join hop_dong_chi_tiet hdct on hdct.ma_hop_dong = hd.ma_hop_dong
 join dich_vu_di_kem dvdk on dvdk.ma_dich_vu_di_kem = hdct.ma_dich_vu_di_kem
+where year(hd.ngay_lam_hop_dong) = 2021
 group by hd.ma_hop_dong
 having sum(ifnull(hdct.so_luong, 0) * ifnull(dvdk.gia, 0) + ifnull(dv.chi_phi_thue, 0) ) > 10000000
 ) and lk.ma_loai_khach =2 ;
 
-update khach_hang kh
-join hop_dong hd on kh.ma_khach_hang = hd.ma_khach_hang
-join loai_khach lk on lk.ma_loai_khach = kh.ma_loai_khach
-set kh.ma_loai_khach = 1
-where kh.ho_ten in (
-select  kh.ho_ten from loai_khach lk
+create view update_kh as
+select kh.ma_loai_khach , kh.ho_ten  , kh.ma_khach_hang
+from loai_khach lk
 join khach_hang kh on lk.ma_loai_khach = kh.ma_loai_khach
 join hop_dong hd on hd.ma_khach_hang = kh.ma_khach_hang
 join dich_vu dv on dv.ma_dich_vu = hd.ma_dich_vu
 join hop_dong_chi_tiet hdct on hdct.ma_hop_dong = hd.ma_hop_dong
-join dich_vu_di_kem dvdk on dvdk.ma_dich_vu_di_kem = hdct.ma_dich_vu_di_kem
+join dich_vu_di_kem dvdk on dvdk.ma_dich_vu_di_kem = hdct.ma_dich_vu_di_kem 
+where year(hd.ngay_lam_hop_dong) = 2021 and lk.ma_loai_khach =2 
 group by hd.ma_hop_dong
-having sum(ifnull(hdct.so_luong, 0) * ifnull(dvdk.gia, 0) + ifnull(dv.chi_phi_thue, 0) ) > 10000000
-) and lk.ma_loai_khach =2 ;
+having sum(ifnull(hdct.so_luong, 0) * ifnull(dvdk.gia, 0) + ifnull(dv.chi_phi_thue, 0) ) > 10000000 ;
+
+select * from update_kh ;
 
 
+update khach_hang
+set ma_loai_khach = 1
+where ma_khach_hang in (
+select ma_khach_hang
+from update_kh
+);
+
+select * from khach_hang ;
+-- drop view update_kh ;
+
+/* 18.	Xóa những khách hàng có hợp đồng trước năm 2021 (chú ý ràng buộc giữa các bảng). */
+
+select * 
+from loai_khach lk
+join khach_hang kh on lk.ma_loai_khach = kh.ma_loai_khach
+join hop_dong hd on hd.ma_khach_hang = kh.ma_khach_hang
+where year( hd.ngay_lam_hop_dong ) < 2021;
+
+
+
+-- create view delete_kh as
+-- select kh.ma_khach_hang, lk.ten_loai_khach, kh.ho_ten
+-- from loai_khach lk
+-- join khach_hang kh on lk.ma_loai_khach = kh.ma_loai_khach
+-- join hop_dong hd on hd.ma_khach_hang = kh.ma_khach_hang
+-- where year( hd.ngay_lam_hop_dong ) < 2021;
+
+-- select * from delete_kh;
+-- drop view delete_kh ;
+
+SET SQL_SAFE_UPDATES = 0;
+SET foreign_key_checks = 0; 
+
+
+delete from khach_hang 
+where ma_khach_hang in ( 
+	select ma_khach_hang 
+    from
+	(select kh.ma_khach_hang
+    from khach_hang kh
+	join hop_dong hd on kh.ma_khach_hang = hd.ma_khach_hang
+	where year( hd.ngay_lam_hop_dong) < 2021 
+	group by kh.ma_khach_hang ) as tim
+);
+
+
+SET foreign_key_checks =1;
+SET SQL_SAFE_UPDATES = 1;
  
+ 
+ 
+ /* 19.	Cập nhật giá cho các dịch vụ đi kèm được sử dụng trên 10 lần trong năm 2020 lên gấp đôi. */
+ 
+ select * 
+ from dich_vu_di_kem dvdk
+ join hop_dong_chi_tiet hdct on dvdk.ma_dich_vu_di_kem = hdct.ma_dich_vu_di_kem
+ join hop_dong hd on hd.ma_hop_dong = hdct.ma_hop_dong
+ where year( hd.ngay_lam_hop_dong ) = 2020
+ group by dvdk.ma_dich_vu_di_kem
+ having sum(hdct.so_luong) > 10;
+ 
+ create view up_dvdk as
+ (select dvdk.ma_dich_vu_di_kem , dvdk.ten_dich_vu_di_kem
+ from dich_vu_di_kem dvdk
+ join hop_dong_chi_tiet hdct on dvdk.ma_dich_vu_di_kem = hdct.ma_dich_vu_di_kem
+ join hop_dong hd on hd.ma_hop_dong = hdct.ma_hop_dong
+ where year( hd.ngay_lam_hop_dong ) = 2020
+ group by dvdk.ma_dich_vu_di_kem
+ having sum(hdct.so_luong) > 10) ;
+ 
+ select * from up_dvdk;
+ 
+ SET SQL_SAFE_UPDATES = 0;
+ 
+ update dich_vu_di_kem
+ set gia = gia * 2 
+ where ma_dich_vu_di_kem in ( select ma_dich_vu_di_kem 
+ from up_dvdk);
+ 
+ SET SQL_SAFE_UPDATES = 1;
+ 
+ /* 20.	Hiển thị thông tin của tất cả các nhân viên và khách hàng có trong hệ thống, thông tin hiển thị bao gồm id (ma_nhan_vien, ma_khach_hang), 
+ ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi. */
+ 
+ 
+ select ma_nhan_vien as id, ho_ten, email, so_dien_thoai, ngay_sinh , dia_chi , 'nhan vien' as 'phan loai'
+ from nhan_vien
+ union
+ select ma_khach_hang as id, ho_ten, email, so_dien_thoai, ngay_sinh , dia_chi , 'khach_hang' as 'phan loai'
+ from khach_hang
