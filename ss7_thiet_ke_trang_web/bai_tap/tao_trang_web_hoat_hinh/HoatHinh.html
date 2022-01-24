@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial,sans-serif;
+        }
+
+        .col-1 {width: 8.33%;}
+        .col-2 {width: 16.66%;}
+        .col-3 {width: 25%;}
+        .col-4 {width: 33.33%;}
+        .col-5 {width: 41.66%;}
+        .col-6 {width: 50%;}
+        .col-7 {width: 58.33%;}
+        .col-8 {width: 66.66%;}
+        .col-9 {width: 75%;}
+        .col-10 {width: 83.33%;}
+        .col-11 {width: 91.66%;}
+        .col-12 {width: 100%;}
+
+        [class*="col-"] {
+            float: left;
+            padding: 5px;
+        }
+
+        .row::after {
+            clear: both;
+            display: block;
+            content: "";
+        }
+
+        .menu{
+            background-color: lightgrey;
+            text-align: center;
+            margin-top: 5px;
+        }
+        .head{
+            background-color: lightgrey;
+            font-size: 20pt;
+            font-style: italic;
+        }
+        .footer{
+            background-color: lightgrey;
+            margin-top: 5px;
+            text-align: center;
+        }
+        @media only screen and (max-width: 768px) {
+            [class*="col-"] {
+                width: 100%;
+            }
+
+            .cartoon_text {
+                background-color: deepskyblue;
+            }
+        }
+    </style>
+</head>
+<body>
+
+        <div class="row">
+            <div class="col-12 head">
+                Phim <span class="cartoon_text">Hoạt Hình</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 menu">
+                <p style="text-transform: capitalize;">Phim hoạt hình | Phim hoạt hình yêu thích | Nhân vật hoạt hình | Góp ý</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4" style="border: 3px solid grey; margin-top: 5px">
+                <div class="row">
+                    <div class="col-12">
+                        <iframe width="400" height="300" src="https://www.youtube.com/embed/53ees82xCOI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <h4>pokemon</h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <iframe width="400" height="300" src="https://www.youtube.com/embed/53ees82xCOI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <h4>pokemon</h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <iframe width="400" height="300" src="https://www.youtube.com/embed/53ees82xCOI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <h4>pokemon</h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <iframe width="400" height="300" src="https://www.youtube.com/embed/53ees82xCOI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <h4>pokemon</h4>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-8" style="margin-top: 5px; text-align: center">
+                <div class="row">
+                    <div class="col-12">
+                        <iframe width="800" height="315" src="https://www.youtube.com/embed/53ees82xCOI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <h4>pokemon</h4>
+                        <p>Xin chào các bạn. Cảm ơn các bạn đã ghé thăm kênh Ricky Rowlet của mình.
+                            Hôm nay, mình sẽ làm video về nguồn cảm hứng mà người ta đã tạo nên bộ ba khởi đầu của lục địa Hoenn nhé.
+                            Mong các bạn sẽ thích video này.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 footer">
+                <p style="text-transform: capitalize">hoat hinh</p>
+            </div>
+        </div>
+
+</body>
+</html>

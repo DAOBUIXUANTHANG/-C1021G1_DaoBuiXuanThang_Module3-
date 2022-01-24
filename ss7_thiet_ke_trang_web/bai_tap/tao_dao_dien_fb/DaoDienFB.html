@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FaceBook</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Verdana,sans-serif;
+        }
+
+        .col-1 {width: 8.33%;}
+        .col-2 {width: 16.66%;}
+        .col-3 {width: 25%;}
+        .col-4 {width: 33.33%;}
+        .col-5 {width: 41.66%;}
+        .col-6 {width: 50%;}
+        .col-7 {width: 58.33%;}
+        .col-8 {width: 66.66%;}
+        .col-9 {width: 75%;}
+        .col-10 {width: 83.33%;}
+        .col-11 {width: 91.66%;}
+        .col-12 {width: 100%;}
+
+        [class*="col-"] {
+            float: left;
+            padding: 5px;
+        }
+
+        .row::after {
+            clear: both;
+            display: block;
+            content: "";
+        }
+
+        .menu li {
+            width: 20%;
+            text-align: center;
+            color: white;
+            float: left;
+        }
+        li{
+            list-style-type: none;
+        }
+
+        .stt {
+            margin: 15px 0;
+            border-radius: 15px;
+            bottom: 0;
+            float: bottom;
+            height: 160px;
+            background: white;
+        }
+        .news{
+            background: white;
+            height: auto;
+        }
+        .news-content img{
+            margin: 3px 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+
+        }
+    </style>
+</head>
+<body>
+<!--header-->
+<div class="row" style="background-color: lightblue; color: white; font-family: Arial, serif">
+    <div class="col-3">
+        <span style="margin-left: 10px"> avatar</span>
+        <label>
+            <input type="text" placeholder="search">
+        </label>
+    </div>
+
+    <div class="col-6">
+        <div class="menu">
+            <ul>
+                <li><img src="homes.png" width="50" height="50" alt="home"></li>
+                <li><img src="marketplace.png" width="50" height="50" alt="market"></li>
+                <li><img src="groups.png" width="50" height="50" alt="group"></li>
+                <li><img src="groups.png" width="50" height="50" alt="game"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-3">
+        <div class="menu" >
+            <ul>
+                <li><img src="ho1.jpg" width="50" height="50" alt="home"> avatar</li>
+                <li>add</li>
+                <li>add2</li>
+                <li>add3</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--phần thân-->
+
+<div class="row" style="background-color: skyblue">
+<!--    nhóm, lối tắt, menu dọc-->
+    <div class="col-3" style="border: 2px solid black">
+        <div>
+            <ul>
+                <li>ban be</li>
+                <li>da luu</li>
+                <li>Nhom</li>
+                <li>Market</li>
+                <li>Watch</li>
+            </ul>
+
+            <hr>
+            <h4>Lối tắt</h4>
+
+            <ul>
+                <li>ban be</li>
+                <li>da luu</li>
+                <li>Nhom</li>
+                <li>Market</li>
+                <li>Watch</li>
+            </ul>
+        </div>
+    </div>
+<!--phần bảng tin-->
+
+    <div class="col-6">
+        <div class="row">
+            <div class="stt">
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="news">
+                <div class="news-content">
+                    <div class="row"><img src="gaphomai.jpg" alt="f"></div>
+                    <div class="row"><img src="gasotcay.jpg" alt="f"></div>
+                    <div class="row"><img src="canhga.jpg" alt="f"></div>
+                    <div class="row"><img src="gaphomai.jpg" alt="f"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--    quảng cáo, danh sách bạn bè-->
+
+    <div class="col-3">
+        <div class="row">
+            <div>
+                <ul>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                    <li>img</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

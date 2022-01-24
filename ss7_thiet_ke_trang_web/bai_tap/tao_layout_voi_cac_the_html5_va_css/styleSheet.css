@@ -1,0 +1,40 @@
+body{
+    font-family: "Times New Roman", serif;
+    font-size: 0.9em;
+}
+header , footer {
+    border-top-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-bottom-style: none;
+    padding: 20px;
+    color: black;
+    background-color: greenyellow;
+}
+nav{
+
+    border-style: solid;
+}
+nav ul {
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 5px;
+}
+
+nav ul li:hover {
+    background-color: red;
+}
+
+section {
+    margin: 10px;
+    padding: 10px;
+    background-color: lightblue;
+}
+article {
+    margin: 5px;
+    padding: 10px;
+    background-color: white;
+}
